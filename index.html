@@ -1,41 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Challenge - DOM</title>
-  </head>
-  <body>
-    <div id="app">
-      <!-- TODO: Buatlah sebuah header dengan id todo-title -->
-      <!-- TODO: Buatlah sebuah subtitle dengan id todo-subtitle -->
+</head>
 
-      <!-- Section: input -->
-      <!-- TODO: Buatlah sebuah input bertipe text dengan id todo-input -->
-      <!-- TODO: Buatlah sebuah button dengan id todo-submit -->
-
-      <!-- Section output -->
-      <!-- TODO: Buatlah sebuah <ul> dengan id todo-output -->
+<body>
+    <div id="app" class="container">
+        <h1 id="title">To Do List</h1>
+        <h5 id="subtitle">Today I need to</h5>
     </div>
-
-    <!-- ! Untuk tantangan ini, script jangan diubah ke external js yah ! -->
+    <div class="container-header">
+        <div class="inputcol">
+            <input id="todo-input" name="text" class="input">
+            <button id ="submit" onclick="addList()" type="button" class="buttoninput"><i class="fa-solid fa-check"></i>submit</button>
+        </div>
+    </div>
+    <div class="todolist">
+        
+    </div>
     <script>
-      // TODO: Deklarasi variable sesuai dengan kebutuhan di sini
-      let button;
-      let input;
-      let output;
+let input = document.querySelector('.input')
+let button = document.querySelector('.buttoninput')
+let output = document.querySelector('.todolist')
 
-      // TODO: Buatlah sebuah fungsi dengan nama fnClickHandler
-      // Fungsi yang digunakan untuk menambahkan tulisan
-      // Jangan ubah cara deklarasi fungsinya, cukup isi saja
-      function fnClickHandler(toDoItem) {}
+function fnClickHandler(toDoItem) {
+    toDoItem.preventDefault()
+    addTodo()
+}
 
-      // TODO: register event onclick / addEventListener untuk button
-      // akan menjalankan fungsi fnClickHandler
-      
-      // TODO: register event onkeypress / addEventListener untuk input
-      // sehingga saat di input ditekan enter akan menjalankan fungsi fnClickHandler juga
-    </script>
-  </body>
+// tambah item
+function addTodo() {
+    const itemall = document.createElement('div')
+    itemall.classList.add('itemall')
+
+    const item = document.createElement('p')
+    item.classList.add('item')
+    item.innerText = input.value
+    itemall.appendChild(item)
+
+    if (input.value === '') return
+
+    const checkbutton = document.createElement("button")
+    checkbutton.innerHTML = '<i class="fa-solid fa-check"></i>'
+    checkbutton.classList.add("check-button")
+    itemall.appendChild(checkbutton)
+
+    const trashbutton = document.createElement("button")
+    trashbutton.innerHTML = '<i class="fa-solid fa-trash"></i>'
+    trashbutton.classList.add("trash-button")
+    itemall.appendChild(trashbutton)
+
+    output.appendChild(itemall)
+    input.value = ''
+}
+
+// ceck dan hapus
+function okdel(toDoItem) {
+    const item = toDoItem.target
+
+    // check
+    if (item.classList[0] === 'check-button') {
+        const todolist = item.parentElement
+        todolist.classList.toggle('checklist')
+    }
+
+    // hapus
+    if (item.classList[0] === 'trash-button') {
+        const todolist = item.parentElement
+        todolist.remove()
+    }
+}
+
+button.addEventListener('click', fnClickHandler)
+output.addEventListener('click', okdel)
+
+</script>
+</body>
+
 </html>
